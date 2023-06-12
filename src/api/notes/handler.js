@@ -1,10 +1,12 @@
-/* eslint-disable no-undef */
-/* eslint-disable lines-between-class-members */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-underscore-dangle */
 class NotesHandler {
   constructor(service) {
     this._service = service;
+
+    this.postNoteHandler = this.postNoteHandler.bind(this);
+    this.getNotesHandler = this.getNotesHandler.bind(this);
+    this.getNoteByIdHandler = this.getNoteByIdHandler.bind(this);
+    this.putNoteByIdHandler = this.putNoteByIdHandler.bind(this);
+    this.deleteNoteByIdHandler = this.deleteNoteByIdHandler.bind(this);
   }
 
   postNoteHandler(request, h) {
@@ -86,7 +88,6 @@ class NotesHandler {
     try {
       const { id } = request.params;
       this._service.deleteNoteById(id);
-
       return {
         status: 'success',
         message: 'Catatan berhasil dihapus',
@@ -94,7 +95,7 @@ class NotesHandler {
     } catch (error) {
       const response = h.response({
         status: 'fail',
-        message: error.message,
+        message: 'Catatan gagal dihapus. Id tidak ditemukan',
       });
       response.code(404);
       return response;
