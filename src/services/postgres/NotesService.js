@@ -33,7 +33,7 @@ class NotesService {
 
   async getNotes() {
     const result = await this._pool.query('SELECT * FROM notes');
-    return result.rows.map(mapDBToModel);
+    return result.rows.map(mapDBToModel)[0];
   }
 
   async getNoteById(id) {
